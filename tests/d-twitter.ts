@@ -2,6 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { AnchorError, Program } from "@project-serum/anchor";
 import { DTwitter } from "../target/types/d_twitter";
 import * as assert from "assert";
+import * as bs58 from "bs58";
 
 describe("d-twitter", () => {
   // Configure the client to use the local cluster.
@@ -154,6 +155,42 @@ describe("d-twitter", () => {
       return;
     }
     assert.fail('The instruction should have failed with a 281-character content.');
+  });
+
+  it("fetch my tweets", async () => {
+    const authorPublicKey = program.provider.wallet.publicKey;
+    const tweetAccounts = await program.account.tweet.all(
+      [
+        {
+          memcmp:{
+            offset: 8,
+            bytes: authorPublicKey.toBase58()
+          }
+        }
+      ]
+    );
+    assert.ok(tweetAccounts.every(tweetAccount => {
+      return tweetAccount.account.author.toBase58() == authorPublicKey.toBase58()
+    }));
+  });
+
+
+
+  it("fetch veganism", async () => {
+    const authorPublicKey = program.provider.wallet.publicKey;
+    const tweetAccounts = await program.account.tweet.all(
+      [
+        {
+          memcmp:{
+            offset: 8 + 32 + 8 + 4,
+            bytes: bs58.encode(Buffer.from('veganism'))
+          }
+        }
+      ]
+    );
+    assert.ok(tweetAccounts.every(tweetAccount => {
+      return tweetAccount.account.topic == 'veganism'
+    }));
   });
 
 });
