@@ -15,7 +15,7 @@ jobs:
           node-version: 16.14.2
           cache: "npm"
       - run: npm install
-      - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+      - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -y
       - run: rustup --version
       - run: yarn --version
       - run: anchor --version
