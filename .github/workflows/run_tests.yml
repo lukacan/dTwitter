@@ -19,5 +19,8 @@ jobs:
         shell: bash
       - run: rustup --version
       - run: yarn --version
-      - run: cargo --version
+      - run: cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+      - run: avm install latest
+      - run: avm use latest
+      - run: anchor --version
       
