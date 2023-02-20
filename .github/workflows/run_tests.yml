@@ -19,5 +19,5 @@ jobs:
         shell: bash
       - run: rustup --version
       - run: yarn --version
-      - run: anchor --version
+      - run: cargo --version
       
