@@ -8,4 +8,9 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v2
+        name: Use Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+          cache: "npm"
